@@ -2,7 +2,7 @@
 # Image for the Cesium Terrain Server
 #
 
-FROM phusion/baseimage:0.9.15
+FROM ubuntu:20.04
 # FROM debian:jessie-slim
 
 ARG FRIENDLY_CHECKOUT
@@ -16,7 +16,7 @@ ENV CESIUM_VERSION $CESIUM_VERSION
 # Regenerate SSH host keys. baseimage-docker does not contain any, so you
 # have to do that yourself. You may also comment out this instruction; the
 # init system will auto-generate one during boot.
-RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+#RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Update the location of the apt sources
 RUN apt-get update -y
@@ -24,21 +24,18 @@ RUN apt-get update -y
 # Install dependencies
 RUN apt-get install -y \
 	ack-grep \
-	vim \
 	curl \
 	sed \
 	wget \
 	bash \
 	build-essential \
-	git \
-	rsync \
-	unzip
+	rsync
 
 # RUN apt-get upgrade -y
 
 # default all users to bash
 RUN sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
-RUN ln -s /usr/bin/ack-grep /usr/bin/ack
+#RUN ln -s /usr/bin/ack-grep /usr/bin/ack
 
 # Install Go
 ADD install-go.sh /tmp/
@@ -58,8 +55,8 @@ ADD install-terrain-server.sh /tmp/
 RUN /tmp/install-terrain-server.sh
 
 # Install Cesium.js
-ADD install-cesiumjs.sh /tmp/
-RUN /tmp/install-cesiumjs.sh
+#ADD install-cesiumjs.sh /tmp/
+#RUN /tmp/install-cesiumjs.sh
 
 # Add our filesystem updates
 ADD ./root-fs /tmp/root-fs
@@ -71,5 +68,5 @@ EXPOSE 8000
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+
+ENTRYPOINT ["/usr/local/go/bin/cesium-terrain-server","-dir=/data/tilesets/terrain"]

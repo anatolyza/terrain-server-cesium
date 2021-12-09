@@ -13,7 +13,7 @@ export PATH=$GOBIN:$PATH
 archive="/tmp/local/cesium-terrain-server-${FRIENDLY_CHECKOUT}.tar.gz"
 if [ ! -f $archive ]; then
 	echo !!!! Downloading Archive Local not Found !!!!!
-	wget --no-verbose -O $archive "https://github.com/nmccready/cesium-terrain-server/archive/${checkout}.tar.gz"
+	wget --no-verbose -O $archive "https://github.com/nmccready/cesium-terrain-server/archive/master.tar.gz"
 fi
 
 if [[ -z $GOPATH ]]; then
