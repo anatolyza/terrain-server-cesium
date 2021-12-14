@@ -2,7 +2,7 @@
 # Image for the Cesium Terrain Server
 #
 
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as build
 # FROM debian:jessie-slim
 
 ARG FRIENDLY_CHECKOUT
@@ -29,7 +29,8 @@ RUN apt-get install -y \
 	wget \
 	bash \
 	build-essential \
-	rsync
+	rsync \
+	git
 
 # RUN apt-get upgrade -y
 
@@ -58,15 +59,27 @@ RUN /tmp/install-terrain-server.sh
 #ADD install-cesiumjs.sh /tmp/
 #RUN /tmp/install-cesiumjs.sh
 
+FROM ubuntu:20.04
+COPY --from=build /usr/local/go/bin/cesium-terrain-server /usr/local/go/bin/cesium-terrain-server
+
+# default all users to bash
+RUN sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
+
+# Update the location of the apt sources
+#RUN apt-get update -y
+
+# Install dependencies
+#RUN apt-get install -y \
+#	rsync
+
 # Add our filesystem updates
-ADD ./root-fs /tmp/root-fs
-RUN rsync -a /tmp/root-fs/ /
+#ADD ./root-fs /tmp/root-fs
+#RUN rsync -a /tmp/root-fs/ /
 
 # Expose the terrain server
 EXPOSE 8000
 
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 ENTRYPOINT ["/usr/local/go/bin/cesium-terrain-server","-dir=/data/tilesets/terrain"]

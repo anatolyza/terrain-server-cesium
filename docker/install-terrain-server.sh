@@ -13,23 +13,25 @@ export PATH=$GOBIN:$PATH
 archive="/tmp/local/cesium-terrain-server-${FRIENDLY_CHECKOUT}.tar.gz"
 if [ ! -f $archive ]; then
 	echo !!!! Downloading Archive Local not Found !!!!!
-	wget --no-verbose -O $archive "https://github.com/nmccready/cesium-terrain-server/archive/master.tar.gz"
+#	wget --no-verbose -O $archive "https://github.com/anatolyza/terrain-server-cesium/archive/master.tar.gz"
+        git clone https://github.com/anatolyza/terrain-server-cesium.git $archive
 fi
 
 if [[ -z $GOPATH ]]; then
 	GOPATH=$GOROOT
 fi
 # Set up the source directory
-CTS_DIR=$GOPATH/src/github.com/nmccready/cesium-terrain-server
+CTS_DIR=$GOPATH/src/github.com/anatolyza/terrain-server-cesium
 mkdir -p $CTS_DIR
 echo made src/github/cst_dir
 cd $CTS_DIR
 echo "!!! in CTS_DIR !!!"
 
 # Extract the terrain server code
-tar --strip-components=1 -xzf $archive
-echo "!!! untared archive !!!"
+#tar --strip-components=1 -xzf $archive
+#echo "!!! untared archive !!!"
 echo PATH: $PATH
 # Build and install the server
+cd $archive
 make install
 # echo "!!! sucessful install !!!"
