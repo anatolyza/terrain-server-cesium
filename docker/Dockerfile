@@ -59,27 +59,13 @@ RUN /tmp/install-terrain-server.sh
 #ADD install-cesiumjs.sh /tmp/
 #RUN /tmp/install-cesiumjs.sh
 
+
+# Create a very light docker image that contains only the cesium-terrain-server and nothing else
+
 FROM ubuntu:20.04
 COPY --from=build /usr/local/go/bin/cesium-terrain-server /usr/local/go/bin/cesium-terrain-server
 
-# default all users to bash
-RUN sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
-
-# Update the location of the apt sources
-#RUN apt-get update -y
-
-# Install dependencies
-#RUN apt-get install -y \
-#	rsync
-
-# Add our filesystem updates
-#ADD ./root-fs /tmp/root-fs
-#RUN rsync -a /tmp/root-fs/ /
-
 # Expose the terrain server
 EXPOSE 8000
-
-# Clean up APT when done
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENTRYPOINT ["/usr/local/go/bin/cesium-terrain-server","-dir=/data/tilesets/terrain"]
