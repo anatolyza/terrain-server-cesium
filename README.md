@@ -1,5 +1,13 @@
 # Cesium Terrain Server
 
+## Based on https://github.com/geo-data/cesium-terrain-server and the many modifications made by https://github.com/nmccready/cesium-terrain-server
+Modified to build a much lighter container and updated Golang and Base image, during runtime of the server there is no need for the cesium server or Golang installation , so the build was modified to be a docker multistage build.
+This is a bit of a diffrent concept, its only a cessium terrain server and nothing else.
+
+# Running docker
+Build the docker and run as follows:
+docker run -p 8080:8000 -v [path to data]:/data/tilesets/terrain terrain-server-cesium:latest
+
 A basic server for serving up filesystem based tilesets representing
 [Cesium.js](http://cesiumjs.org/) terrain models.  The resources served up are
 intended for use with the
