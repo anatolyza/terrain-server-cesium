@@ -6,7 +6,7 @@
 #
 
 cd /tmp 
-curl -OL https://go.dev/dl/go1.17.4.linux-amd64.tar.gz
-tar -C /usr/local -xvf go1.17.4.linux-amd64.tar.gz
+curl -OL https://go.dev/dl/go1.21.11.linux-amd64.tar.gz
+tar -C /usr/local -xvf go1.21.11.linux-amd64.tar.gz
 ln -s /usr/local/go/bin/go* /usr/local/bin/ 
-rm -rf /tmp/go1.17.4.linux-amd64.tar.gz 
+rm -rf /tmp/go1.21.11.linux-amd64.tar.gz
