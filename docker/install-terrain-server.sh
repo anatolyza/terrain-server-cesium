@@ -14,7 +14,7 @@ archive="/tmp/local/cesium-terrain-server-${FRIENDLY_CHECKOUT}.tar.gz"
 if [ ! -f $archive ]; then
 	echo !!!! Downloading Archive Local not Found !!!!!
 #	wget --no-verbose -O $archive "https://github.com/anatolyza/terrain-server-cesium/archive/master.tar.gz"
-        git clone https://github.com/anatolyza/terrain-server-cesium.git $archive
+        git clone -b go1-21-11 https://github.com/anatolyza/terrain-server-cesium.git $archive
 fi
 
 if [[ -z $GOPATH ]]; then
