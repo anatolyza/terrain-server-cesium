@@ -17,7 +17,7 @@ assets/assets.go: $(GOBINDATA) data
 	$(GOBINDATA) -ignore \\.gitignore -nocompress -pkg="assets" -o assets/assets.go data
 
 $(GOBINDATA):
-	go get -u github.com/go-bindata/go-bindata/...
+	go install github.com/go-bindata/go-bindata/v3/go-bindata@latest
 
 data/smallterrain-blank.terrain:
 	curl --location --progress-bar https://raw.github.com/geo-data/cesium-terrain-builder/master/data/smallterrain-blank.terrain > data/smallterrain-blank.terrain
